@@ -34,7 +34,7 @@ export function ProductReachHeatmap() {
     }
   }, [isInView]);
 
-  // Animation variants
+  // Animation variants for the main container
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -42,28 +42,61 @@ export function ProductReachHeatmap() {
       transition: {
         when: "beforeChildren",
         staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, scale: 0.8 },
-    show: {
-      opacity: 1,
-      scale: 1,
-      transition: { 
-        type: "spring", 
-        stiffness: 300, 
-        damping: 20,
-        duration: 0.5
+        staggerDirection: 1
       }
-    },
-    hover: { 
-      scale: 1.1,
-      transition: { duration: 0.2 }
     }
   };
 
+  // Animation for heatmap cells with staggered delay based on position
+  const cellItem = (rowIndex, colIndex) => {
+    const delay = 0.1 + (rowIndex * 0.03) + (colIndex * 0.01);
+    return {
+      hidden: { 
+        opacity: 0, 
+        scale: 0.3,
+        y: 5,
+        transformOrigin: 'center center'
+      },
+      show: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+          type: "spring",
+          stiffness: 500,
+          damping: 15,
+          mass: 0.5,
+          delay: delay,
+          duration: 0.5
+        }
+      },
+      hover: { 
+        scale: 1.15,
+        transition: { 
+          type: "spring",
+          stiffness: 400,
+          damping: 10,
+          duration: 0.3
+        }
+      }
+    };
+  };
+
+  // Animation for day headers and platform labels
+  const headerItem = (index) => ({
+    hidden: { opacity: 0, y: -10 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.1 + (index * 0.05),
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    }
+  });
+
+  // Animation for legend items
   const legendItem = {
     hidden: { opacity: 0, y: 10 },
     show: (i) => ({
@@ -71,9 +104,23 @@ export function ProductReachHeatmap() {
       y: 0,
       transition: { 
         delay: 0.5 + (i * 0.1),
-        duration: 0.3
+        duration: 0.3,
+        ease: "easeOut"
       }
     })
+  };
+
+  // Animation for the card content
+  const contentItem = {
+    hidden: { opacity: 0, y: 10 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut"
+      }
+    }
   };
 
   return (
@@ -118,27 +165,17 @@ export function ProductReachHeatmap() {
             </CardHeader>
             <CardContent>
               <motion.div 
-                className="grid gap-3 p-2" 
+                className="grid gap-1 p-2" 
                 style={{ gridTemplateColumns: '100px repeat(7, 1fr)' }}
+                variants={contentItem}
               >
-                {/* Day headers */}
-                <div key="empty-corner"></div>
-                {days.map((day) => (
-                  <motion.div 
-                    key={day} 
-                    className="text-center text-xs text-gray-500 font-normal pb-1"
-                    variants={item}
-                  >
-                    {day}
-                  </motion.div>
-                ))}
 
                 {/* Platform rows */}
-                {platforms.map((platform) => (
+                {platforms.map((platform, rowIndex) => (
                   <Fragment key={platform}>
                     <motion.div 
                       className="text-sm text-gray-700 font-normal flex items-center"
-                      variants={item}
+                      variants={headerItem(rowIndex)}
                     >
                       {platform}
                     </motion.div>
@@ -147,16 +184,33 @@ export function ProductReachHeatmap() {
                         key={`${platform}-${colIndex}`}
                         className={`w-8 h-8 rounded-lg ${getCellColor(value)} hover:opacity-80 cursor-pointer`}
                         title={`${platform} - ${days[colIndex]}: ${value.toLocaleString()} reach`}
-                        variants={item}
+                        variants={cellItem(rowIndex, colIndex)}
                         whileHover="hover"
+                        transition={{
+                          delay: 0.2+colIndex*0.1,
+                          duration: 0.5,
+                          ease: "easeOut"
+                        }}
                       />
                     ))}
                   </Fragment>
                 ))}
+
+                 {/* Day headers */}
+                <div key="empty-corner"></div>
+                {days.map((day, index) => (
+                  <motion.div 
+                    key={day} 
+                    className="text-center text-xs text-gray-500 font-normal pb-1"
+                    variants={headerItem(index)}
+                  >
+                    {day}
+                  </motion.div>
+                ))}
               </motion.div>
 
               <motion.div 
-                className="flex items-center justify-center gap-6 mt-6 text-xs text-gray-600"
+                className="flex items-center justify-center gap-6 mt-4 text-xs text-gray-600"
                 variants={container}
               >
                 {[

@@ -177,7 +177,7 @@ export default function DashboardPage() {
                 key={stat.name}
                 variants={item}
               >
-                <Card className="rounded-3xl hover:shadow-lg transition-shadow">
+                <Card className="rounded-3xl hover:shadow-lg transition-shadow gap-2">
                   <CardHeader className="flex items-center justify-between space-y-0">
                     <div className='bg-indigo-100 text-indigo-600 rounded-lg p-2'>
                       <Icon className='size-5' strokeWidth={2} />
