@@ -4,6 +4,7 @@ import DashboardPage from '@/pages/DashboardPage';
 import UsersPage from '@/pages/UsersPage';
 import ReportsPage from '@/pages/ReportsPage';
 import DocumentsPage from '@/pages/DocumentsPage';
+import OrdersPage from '@/pages/OrdersPage';
 import SettingsPage from '@/pages/SettingsPage';
 import HelpPage from '@/pages/HelpPage';
 
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="users" element={<UsersPage />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="documents" element={<DocumentsPage />} />
+          <Route path="orders" element={<OrdersPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<HelpPage />} />
           <Route path="logout" element={<div>Logging out...</div>} />

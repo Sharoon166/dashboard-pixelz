@@ -9,36 +9,38 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 const stats = [
-  { 
-    name: 'Total Revenue', 
-    value: '$45,231.89', 
-    change: '+20.1% from last month',
+  {
+    name: 'Total Revenue',
+    value: '$45,231.89',
+    change: '+20.1%',
     trend: 'up',
     icon: DollarSign,
     color: 'bg-green-100 text-green-600'
   },
-  { 
-    name: 'Total Sales', 
-    value: '1,234', 
-    change: '+12% from last month',
-    trend: 'up',
+  {
+    name: 'Total Sales',
+    value: '1,234',
+    change: '-12%',
+    trend: 'down',
     icon: ShoppingCart,
     color: 'bg-blue-100 text-blue-600'
   },
-  { 
-    name: 'Active Users', 
-    value: '1,234', 
-    change: '+19% from last month',
+  {
+    name: 'Active Users',
+    value: '1,234',
+    change: '+19%',
     trend: 'up',
     icon: Users,
     color: 'bg-purple-100 text-purple-600'
   },
-  { 
-    name: 'Total Orders', 
-    value: '1,234', 
-    change: '+5.2% from last month',
+  {
+    name: 'Total Orders',
+    value: '1,234',
+    change: '+5.2%',
     trend: 'down',
     icon: CreditCard,
     color: 'bg-orange-100 text-orange-600'
@@ -91,40 +93,45 @@ const transactions = [
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-          <p className="text-sm text-muted-foreground">Here's what's happening with your store today.</p>
-        </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700">
-          <TrendingUp className="mr-2 h-4 w-4" /> View Analytics
-        </Button>
-      </div>
+      <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.name} className="hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.name}
-              </CardTitle>
-              <div className={`p-2 rounded-full ${stat.color}`}>
-                <stat.icon className="h-4 w-4" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <div className="flex items-center text-xs text-muted-foreground mt-1">
-                {stat.trend === 'up' ? (
-                  <ArrowUp className="h-3 w-3 text-green-500 mr-1" />
-                ) : (
-                  <ArrowDown className="h-3 w-3 text-red-500 mr-1" />
-                )}
-                {stat.change}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid gap-4 md:grid-cols-2 max-w-3xl">
+        {stats.map((stat) => {
+          const Icon = stat.icon
+          return (
+            <Card key={stat.name} className="hover:shadow-md transition-shadow rounded-3xl">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="flex items-center gap-2">
+                  <div className='bg-indigo-100 text-indigo-600 rounded-lg p-2'>
+                    <Icon className='size-7' strokeWidth={2} />
+                  </div>
+                  <span className='font-semibold'>
+                    {stat.name}
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-4">
+                <div className="flex items-center gap-2">
+                  <div className="text-3xl font-medium">{stat.value}</div>
+                  <Badge className={cn("font-semibold",{
+                    "bg-green-100 text-green-500": stat.trend == "up",
+                    "bg-red-100 text-red-500": stat.trend == "down"
+                  })}>
+                    {stat.trend === 'up' ? (
+                      <ArrowUp />
+                    ) : (
+                      <ArrowDown />
+                    )}
+                    {stat.change}
+                  </Badge>
+                </div>
+                <div className='text-muted-foreground text-sm'>
+                  From last week
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
@@ -170,13 +177,12 @@ export default function DashboardPage() {
                     </TableCell>
                     <TableCell>{transaction.amount}</TableCell>
                     <TableCell>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        transaction.status === 'completed' 
-                          ? 'bg-green-100 text-green-800' 
-                          : transaction.status === 'processing' 
-                          ? 'bg-yellow-100 text-yellow-800' 
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${transaction.status === 'completed'
+                        ? 'bg-green-100 text-green-800'
+                        : transaction.status === 'processing'
+                          ? 'bg-yellow-100 text-yellow-800'
                           : 'bg-red-100 text-red-800'
-                      }`}>
+                        }`}>
                         {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
                       </span>
                     </TableCell>

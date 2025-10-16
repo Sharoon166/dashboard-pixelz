@@ -17,8 +17,8 @@ const Navbar = () => {
       <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <Loader className="h-6 w-6 text-indigo-500" />
-          <h1 className="text-xl font-bold text-gray-800">Metrics</h1>
+            <Loader className="h-6 w-6 text-indigo-500" />
+          <h1 className="text-xl font-medium text-gray-800">Metrics</h1>
         </div>
 
         <div className="flex-1 flex items-center justify-end gap-2">
@@ -45,7 +45,7 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center text-sm rounded-full">
-                  <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                  <div className="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-white">
                     <span>JD</span>
                   </div>
                   <div className="ml-2 hidden md:flex items-center">
