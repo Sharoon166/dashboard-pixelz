@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowUp, ArrowDown, TrendingUp, DollarSign, ShoppingCart, Users, CreditCard } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, DollarSign, ShoppingCart, Users, CreditCard, MoreHorizontal, Eye, BarChart2, Trash2, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const stats = [
   {
@@ -99,21 +100,54 @@ export default function DashboardPage() {
         {stats.map((stat) => {
           const Icon = stat.icon
           return (
-            <Card key={stat.name} className="hover:shadow-md transition-shadow rounded-3xl">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="flex items-center gap-2">
-                  <div className='bg-indigo-100 text-indigo-600 rounded-lg p-2'>
-                    <Icon className='size-7' strokeWidth={2} />
+            <Card key={stat.name} className="rounded-3xl">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                <CardTitle className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <div className='bg-indigo-100 text-indigo-600 rounded-lg p-2'>
+                      <Icon className='size-7' strokeWidth={2} />
+                    </div>
+                    <span className='font-semibold'>
+                      {stat.name}
+                    </span>
                   </div>
-                  <span className='font-semibold'>
-                    {stat.name}
-                  </span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 rounded-full hover:bg-gray-100"
+                      >
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-48" align="end">
+                      <DropdownMenuLabel className="text-sm font-medium leading-none">
+                        <div className="flex flex-col space-y-1">
+                          <p className="text-sm font-medium leading-none">Quick Actions</p>
+                        </div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                        <span>View Details</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        <BarChart2 className="h-4 w-4 text-muted-foreground" />
+                        <span>View Analytics</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        <RefreshCw className="h-4 w-4 text-muted-foreground" />
+                        <span>Refresh</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-4">
                 <div className="flex items-center gap-2">
                   <div className="text-3xl font-medium">{stat.value}</div>
-                  <Badge className={cn("font-semibold",{
+                  <Badge className={cn("font-semibold", {
                     "bg-green-100 text-green-500": stat.trend == "up",
                     "bg-red-100 text-red-500": stat.trend == "down"
                   })}>
