@@ -1,17 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowUp, ArrowDown, TrendingUp, DollarSign, ShoppingCart, Users, CreditCard, MoreHorizontal, Eye, BarChart2, Trash2, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { TotalSalesChart } from '@/components/dashboard/TotalSalesChart';
+import { ProductReachHeatmap } from '@/components/dashboard/ProductReachHeatmap';
 
 const stats = [
   {
@@ -168,65 +162,15 @@ export default function DashboardPage() {
         })}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle className="text-lg font-semibold">Sales Overview</CardTitle>
-              <Button variant="outline" size="sm" className="h-8">
-                Last 7 days
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="p-6 pt-0">
-            <div className="h-[300px] flex items-center justify-center bg-gray-50 rounded-md">
-              <div className="text-center p-6">
-                <TrendingUp className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                <h3 className="text-lg font-medium text-gray-700">Sales Chart</h3>
-                <p className="text-sm text-gray-500 mt-1">$12,234.00 total sales this period</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold">Recent Transactions</CardTitle>
-          </CardHeader>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow key={transaction.id}>
-                    <TableCell className="font-medium">
-                      <div className="font-medium">{transaction.customer}</div>
-                      <div className="text-sm text-muted-foreground">{transaction.email}</div>
-                    </TableCell>
-                    <TableCell>{transaction.amount}</TableCell>
-                    <TableCell>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${transaction.status === 'completed'
-                        ? 'bg-green-100 text-green-800'
-                        : transaction.status === 'processing'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
-                        }`}>
-                        {transaction.status.charAt(0).toUpperCase() + transaction.status.slice(1)}
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+      <div className="grid gap-4 md:grid-cols-9">
+        <div className='md:col-span-5'>
+          <TotalSalesChart />
+        </div>
+        <div className='md:col-span-4'>
+          <ProductReachHeatmap />
+        </div>
       </div>
+
     </div>
   );
 }
