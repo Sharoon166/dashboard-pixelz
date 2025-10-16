@@ -53,7 +53,7 @@ export function TotalSalesChart() {
           </DropdownMenu>
         </CardTitle>
       </CardHeader>
-      <CardContent className="h-64">
+      <CardContent className="h-52">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={salesData}

@@ -26,7 +26,7 @@ export function ProductReachHeatmap() {
 
   return (
     <Card className="shadow-sm border border-gray-100 rounded-3xl h-full">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <CardTitle className="font-medium text-lg">Product Reach</CardTitle>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

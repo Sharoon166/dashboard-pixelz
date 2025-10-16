@@ -36,7 +36,7 @@ export const PageTransition = ({ children }) => {
   // Reset visibility when children change (route changes)
   useEffect(() => {
     setIsVisible(false);
-    const timer = setTimeout(() => setIsVisible(true), 10);
+    const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, [children]);
 
