@@ -24,7 +24,7 @@ export default function LoadingScreen() {
           <motion.div
             initial={{ scale: 0.5, opacity: 0 }}
             animate={{ 
-              scale: 1,
+              scale: 2,
               opacity: 1,
               transition: { 
                 duration: 0.6,
@@ -44,9 +44,42 @@ export default function LoadingScreen() {
                 ease: [0.4, 0, 0.2, 1] 
               }
             }}
-            className="w-16 h-16 rounded-full bg-white flex items-center justify-center"
+            className="px-4 py-2 rounded-full bg-white flex items-center justify-center gap-2"
           >
-            <Loader className="h-8 w-8 text-indigo-600 animate-spin" />
+            <Loader className="h-8 w-8 text-indigo-600 " />
+            <motion.h1 
+              className="text-xl font-medium text-gray-800 flex overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              {"Metrics".split('').map((char, i) => (
+                <motion.span
+                  key={i}
+                  className="inline-block"
+                  initial={{ 
+                    opacity: 0, 
+                    y: 10,
+                    filter: 'blur(4px)'
+                  }}
+                  animate={{ 
+                    opacity: [0, 1, 1, 0],
+                    y: [10, 0, 0, -15],
+                    filter: ['blur(4px)', 'blur(0px)', 'blur(0px)', 'blur(2px)'],
+                    transition: {
+                      duration: 2.2,
+                      ease: [0.4, 0, 0.2, 1],
+                      times: [0, 0.15, 0.7, 1],
+                      delay: 0.4 + (i * 0.08),
+                      repeat: Infinity,
+                      repeatDelay: 0.5
+                    }
+                  }}
+                >
+                  {char === ' ' ? '\u00A0' : char}
+                </motion.span>
+              ))}
+            </motion.h1>
           </motion.div>
         </motion.div>
       )}

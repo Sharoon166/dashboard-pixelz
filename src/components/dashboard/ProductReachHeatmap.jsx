@@ -14,6 +14,13 @@ const reachData = {
   TikTok: [50000, 8000, 10000, 15000, 12000, 0, 0],
 };
 
+const legend = [
+  { color: "bg-indigo-200", label: "0–5k" },
+  { color: "bg-indigo-400", label: "5k–10k" },
+  { color: "bg-indigo-600", label: "10k–50k" },
+  { color: "bg-indigo-800", label: ">50k" }
+]
+
 function getCellColor(val) {
   if (val === 0) return "bg-gray-100";
   if (val >= 50000) return "bg-indigo-800";
@@ -51,8 +58,8 @@ export function ProductReachHeatmap() {
   const cellItem = (rowIndex, colIndex) => {
     const delay = 0.1 + (rowIndex * 0.03) + (colIndex * 0.01);
     return {
-      hidden: { 
-        opacity: 0, 
+      hidden: {
+        opacity: 0,
         scale: 0.3,
         y: 5,
         transformOrigin: 'center center'
@@ -70,9 +77,9 @@ export function ProductReachHeatmap() {
           duration: 0.5
         }
       },
-      hover: { 
+      hover: {
         scale: 1.15,
-        transition: { 
+        transition: {
           type: "spring",
           stiffness: 400,
           damping: 10,
@@ -102,7 +109,7 @@ export function ProductReachHeatmap() {
     show: (i) => ({
       opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         delay: 0.5 + (i * 0.1),
         duration: 0.3,
         ease: "easeOut"
@@ -164,8 +171,8 @@ export function ProductReachHeatmap() {
               </DropdownMenu>
             </CardHeader>
             <CardContent>
-              <motion.div 
-                className="grid gap-1 p-2" 
+              <motion.div
+                className="grid gap-1 p-2"
                 style={{ gridTemplateColumns: '100px repeat(7, 1fr)' }}
                 variants={contentItem}
               >
@@ -173,7 +180,7 @@ export function ProductReachHeatmap() {
                 {/* Platform rows */}
                 {platforms.map((platform, rowIndex) => (
                   <Fragment key={platform}>
-                    <motion.div 
+                    <motion.div
                       className="text-sm text-gray-700 font-normal flex items-center"
                       variants={headerItem(rowIndex)}
                     >
@@ -187,7 +194,7 @@ export function ProductReachHeatmap() {
                         variants={cellItem(rowIndex, colIndex)}
                         whileHover="hover"
                         transition={{
-                          delay: 0.2+colIndex*0.1,
+                          delay: 0.2 + colIndex * 0.1,
                           duration: 0.5,
                           ease: "easeOut"
                         }}
@@ -196,11 +203,11 @@ export function ProductReachHeatmap() {
                   </Fragment>
                 ))}
 
-                 {/* Day headers */}
+                {/* Day headers */}
                 <div key="empty-corner"></div>
                 {days.map((day, index) => (
-                  <motion.div 
-                    key={day} 
+                  <motion.div
+                    key={day}
                     className="text-center text-xs text-gray-500 font-normal pb-1"
                     variants={headerItem(index)}
                   >
@@ -209,17 +216,12 @@ export function ProductReachHeatmap() {
                 ))}
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 className="flex items-center justify-center gap-6 mt-4 text-xs text-gray-600"
                 variants={container}
               >
-                {[
-                  { color: "bg-indigo-200", label: "0–5k" },
-                  { color: "bg-indigo-400", label: "5k–10k" },
-                  { color: "bg-indigo-600", label: "10k–50k" },
-                  { color: "bg-indigo-800", label: ">50k" }
-                ].map((item, i) => (
-                  <motion.div 
+                {legend.map((item, i) => (
+                  <motion.div
                     key={item.label}
                     variants={legendItem}
                     custom={i}

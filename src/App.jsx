@@ -20,12 +20,11 @@ export default function App() {
     }, 1500)
     return () => clearTimeout(timer)
   }, [])
-  
+
   return (
     <>
-      {isLoading && <LoadingScreen />}
       <AnimatePresence mode='wait'>
-        {!isLoading && (
+        {isLoading ? <LoadingScreen /> : (
           <Router>
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
